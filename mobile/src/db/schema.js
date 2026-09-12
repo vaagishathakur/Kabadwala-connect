@@ -1,0 +1,91 @@
+export const CREATE_TABLES_SQL = [
+  `CREATE TABLE IF NOT EXISTS collectors (
+    id TEXT PRIMARY KEY,
+    display_name TEXT,
+    phone_hash TEXT,
+    preferred_language TEXT,
+    operating_city TEXT,
+    total_transactions INTEGER,
+    total_earnings_inr REAL,
+    created_at TEXT
+  );`,
+  `CREATE TABLE IF NOT EXISTS lots (
+    id TEXT PRIMARY KEY,
+    collector_id TEXT,
+    category TEXT,
+    sub_category TEXT,
+    description TEXT,
+    image_refs TEXT,
+    approximate_weight_kg REAL,
+    condition TEXT,
+    source_type TEXT,
+    estimated_value_inr REAL,
+    created_at TEXT,
+    synced INTEGER DEFAULT 0
+  );`,
+  `CREATE TABLE IF NOT EXISTS prices_cache (
+    id TEXT,
+    category TEXT,
+    sub_category TEXT,
+    location_city TEXT,
+    buying_price_inr REAL,
+    unit TEXT,
+    market_range_low REAL,
+    market_range_high REAL,
+    date_recorded TEXT,
+    cached_at TEXT
+  );`,
+  `CREATE TABLE IF NOT EXISTS recyclers_cache (
+    id TEXT,
+    name TEXT,
+    facility_address TEXT,
+    lat REAL,
+    lng REAL,
+    materials_accepted TEXT,
+    authorization_status TEXT,
+    contact_phone TEXT,
+    offered_rates TEXT,
+    pickup_available INTEGER,
+    service_area_km INTEGER
+  );`,
+  `CREATE TABLE IF NOT EXISTS transactions (
+    id TEXT PRIMARY KEY,
+    lot_id TEXT,
+    collector_id TEXT,
+    recycler_id TEXT,
+    material_category TEXT,
+    total_weight_kg REAL,
+    quoted_price_inr REAL,
+    final_price_inr REAL,
+    payment_mode TEXT,
+    payment_status TEXT,
+    transaction_status TEXT,
+    collection_datetime TEXT,
+    handover_datetime TEXT,
+    collection_lat REAL,
+    collection_lng REAL,
+    synced INTEGER DEFAULT 0
+  );`,
+  `CREATE TABLE IF NOT EXISTS traceability (
+    id TEXT PRIMARY KEY,
+    lot_id TEXT,
+    transaction_id TEXT,
+    photograph_refs TEXT,
+    weight_at_handover_kg REAL,
+    timestamp TEXT,
+    gps_lat REAL,
+    gps_lng REAL,
+    handover_reference TEXT UNIQUE,
+    collector_signed INTEGER DEFAULT 0,
+    recycler_confirmed INTEGER DEFAULT 0,
+    subsequent_status TEXT
+  );`,
+  `CREATE TABLE IF NOT EXISTS sync_queue (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    entity TEXT,
+    action TEXT,
+    data TEXT,
+    client_timestamp TEXT,
+    synced INTEGER DEFAULT 0
+  );`
+];

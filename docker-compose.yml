@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  # PostgreSQL database
+  db:
+    image: postgres:16-alpine
+    container_name: kabadconnect_db
+    environment:
+      POSTGRES_DB: kabadconnect_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: kabadpass123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Node.js API backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kabadconnect_api
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: kabadconnect_db
+      DB_USER: postgres
+      DB_PASS: kabadpass123
+      JWT_SECRET: kabadconnect_jwt_secret_change_in_prod
+      ML_SERVICE_URL: http://ml:8001
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  # Python ML microservice
+  ml:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    container_name: kabadconnect_ml
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./ml:/app
+    command: uvicorn app:app --host 0.0.0.0 --port 8001 --reload
+
+  # Recycler dashboard (Vite dev server)
+  dashboard:
+    build:
+      context: ./recycler-dashboard
+      dockerfile: Dockerfile
+    container_name: kabadconnect_dashboard
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./recycler-dashboard:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+
+volumes:
+  pgdata:

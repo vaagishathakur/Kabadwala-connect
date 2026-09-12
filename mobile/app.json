@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "KabadConnect",
+    "slug": "kabadconnect",
+    "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "android": {
+      "minSdkVersion": 21,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "package": "com.kabadconnect.mobile"
+    },
+    "plugins": [
+      "expo-camera",
+      "expo-image-picker",
+      "expo-location",
+      "expo-sqlite"
+    ]
+  }
+}

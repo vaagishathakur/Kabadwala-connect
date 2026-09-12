@@ -1,0 +1,102 @@
+[
+  {
+    "id": "rec-001-mpcb-mumbai",
+    "name": "EcoGreen E-Waste Recyclers Pvt Ltd",
+    "facility_address": "Plot 42, MIDC Turbhe, Navi Mumbai, Maharashtra 400705",
+    "lat": 19.0596,
+    "lng": 73.0052,
+    "materials_accepted": ["PCB", "LCD", "CRT", "Cable", "Battery", "Motor", "Plastic", "Mixed", "Other"],
+    "authorization_body": "MPCB",
+    "authorization_number": "MPCB-HW-2024-MUM-0187",
+    "authorization_expiry": "2026-03-31",
+    "authorization_status": "Active",
+    "contact_phone": "9820012345",
+    "contact_email": "pickup@ecogreen.co.in",
+    "offered_rates": {
+      "PCB": 105, "LCD": 48, "CRT": 12, "Cable": 380, "Battery": 35, "Motor": 65, "Plastic": 13, "Mixed": 28, "Other": 22
+    },
+    "pickup_available": true,
+    "service_area_km": 50,
+    "last_verified": "2024-11-15"
+  },
+  {
+    "id": "rec-002-mpcb-pune",
+    "name": "GreenCycle Solutions LLP",
+    "facility_address": "Gat No. 234, Ranjangaon MIDC, Pune, Maharashtra 412220",
+    "lat": 18.7322,
+    "lng": 74.0986,
+    "materials_accepted": ["PCB", "Cable", "Battery", "Motor", "Mixed"],
+    "authorization_body": "MPCB",
+    "authorization_number": "MPCB-HW-2024-PUN-0093",
+    "authorization_expiry": "2025-12-31",
+    "authorization_status": "Active",
+    "contact_phone": "9876501234",
+    "contact_email": "ops@greencycle.in",
+    "offered_rates": {
+      "PCB": 100, "Cable": 370, "Battery": 32, "Motor": 60, "Mixed": 25
+    },
+    "pickup_available": true,
+    "service_area_km": 60,
+    "last_verified": "2024-10-20"
+  },
+  {
+    "id": "rec-003-cpcb-delhi",
+    "name": "TechReclaim India Pvt Ltd",
+    "facility_address": "A-47, Sector 64, Noida, Uttar Pradesh 201301",
+    "lat": 28.6139,
+    "lng": 77.3642,
+    "materials_accepted": ["PCB", "LCD", "Cable", "Battery", "Plastic", "Other"],
+    "authorization_body": "CPCB",
+    "authorization_number": "CPCB-EW-2023-DEL-0512",
+    "authorization_expiry": "2025-09-30",
+    "authorization_status": "Active",
+    "contact_phone": "9811234567",
+    "contact_email": "collection@techreclaim.in",
+    "offered_rates": {
+      "PCB": 110, "LCD": 50, "Cable": 395, "Battery": 38, "Plastic": 15, "Other": 25
+    },
+    "pickup_available": false,
+    "service_area_km": 40,
+    "last_verified": "2024-09-05"
+  },
+  {
+    "id": "rec-004-kspcb-bangalore",
+    "name": "Karma Recycling Pvt Ltd",
+    "facility_address": "No. 18, Bommasandra Industrial Area, Bangalore, Karnataka 560099",
+    "lat": 12.8399,
+    "lng": 77.6770,
+    "materials_accepted": ["PCB", "LCD", "CRT", "Cable", "Battery", "Motor"],
+    "authorization_body": "KSPCB",
+    "authorization_number": "KSPCB-HW-2024-BLR-0341",
+    "authorization_expiry": "2026-06-30",
+    "authorization_status": "Active",
+    "contact_phone": "9945678901",
+    "contact_email": "info@karmarecycling.com",
+    "offered_rates": {
+      "PCB": 98, "LCD": 45, "CRT": 10, "Cable": 360, "Battery": 30, "Motor": 58
+    },
+    "pickup_available": true,
+    "service_area_km": 55,
+    "last_verified": "2024-12-01"
+  },
+  {
+    "id": "rec-005-tnpcb-chennai",
+    "name": "CleanFuture E-Waste Mgmt",
+    "facility_address": "No. 5/2, Ambattur Industrial Estate, Chennai, Tamil Nadu 600058",
+    "lat": 13.1143,
+    "lng": 80.1548,
+    "materials_accepted": ["PCB", "Cable", "Battery", "Plastic", "Mixed", "Other"],
+    "authorization_body": "TNPCB",
+    "authorization_number": "TNPCB-EW-2024-CHN-0228",
+    "authorization_expiry": "2025-11-30",
+    "authorization_status": "Active",
+    "contact_phone": "9841234560",
+    "contact_email": "collect@cleanfuture.co.in",
+    "offered_rates": {
+      "PCB": 95, "Cable": 355, "Battery": 28, "Plastic": 11, "Mixed": 22, "Other": 18
+    },
+    "pickup_available": true,
+    "service_area_km": 45,
+    "last_verified": "2024-11-20"
+  }
+]
