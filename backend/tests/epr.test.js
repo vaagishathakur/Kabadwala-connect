@@ -147,4 +147,36 @@ describe('EPR Compliance & Handover Flow', () => {
     expect(inputRes.body.success).toBe(true);
     expect(inputRes.body.response).toBeDefined();
   });
+
+  it('8. should support English language in IVR and playout English prompts', async () => {
+    const startRes = await request(app).post('/api/ivr/simulator').send({
+      caller: '9876543211',
+    });
+    expect(startRes.status).toBe(200);
+
+    // Select English (3)
+    const langRes = await request(app).post('/api/ivr/simulator').send({
+      callId: startRes.body.callId,
+      digits: '3',
+    });
+    expect(langRes.status).toBe(200);
+    expect(langRes.body.response.language).toBe('en');
+    expect(langRes.body.response.prompt).toContain('Main menu');
+
+    // Select Price Board (3)
+    const priceMenuRes = await request(app).post('/api/ivr/simulator').send({
+      callId: startRes.body.callId,
+      digits: '3',
+    });
+    expect(priceMenuRes.status).toBe(200);
+    expect(priceMenuRes.body.response.prompt).toContain('Choose material');
+
+    // Select PCB (1)
+    const pcbPriceRes = await request(app).post('/api/ivr/simulator').send({
+      callId: startRes.body.callId,
+      digits: '1',
+    });
+    expect(pcbPriceRes.status).toBe(200);
+    expect(pcbPriceRes.body.response.prompt).toContain('PCB average price today is about');
+  });
 });

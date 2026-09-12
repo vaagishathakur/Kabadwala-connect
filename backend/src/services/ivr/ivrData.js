@@ -42,10 +42,13 @@ async function getPriceSummary(category, city = DEFAULT_CITY) {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
+  const isPostgres = Price.sequelize && Price.sequelize.getDialect() === 'postgres';
+  const cityOp = isPostgres ? Op.iLike : Op.like;
+
   const recent = await Price.findAll({
     where: {
       material_category: category,
-      location_city: { [Op.iLike]: `%${city}%` },
+      location_city: { [cityOp]: `%${city}%` },
       date_recorded: { [Op.gte]: sevenDaysAgo },
     },
     order: [['date_recorded', 'DESC']],
@@ -55,7 +58,7 @@ async function getPriceSummary(category, city = DEFAULT_CITY) {
   const previous = await Price.findAll({
     where: {
       material_category: category,
-      location_city: { [Op.iLike]: `%${city}%` },
+      location_city: { [cityOp]: `%${city}%` },
       date_recorded: { [Op.between]: [fourteenDaysAgo, sevenDaysAgo] },
     },
     limit: 10,
