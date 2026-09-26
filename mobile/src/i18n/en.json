@@ -1,0 +1,78 @@
+{
+  "home": {
+    "title": "KabadConnect",
+    "scan": "Take Photo",
+    "priceBoard": "Check Rates",
+    "recyclers": "Recyclers",
+    "ledger": "Earnings",
+    "safety": "Safety"
+  },
+  "lot": {
+    "create": "Create New Lot",
+    "category": "Select Category",
+    "weight": "Weight (kg)",
+    "estimate": "Estimated Value",
+    "save": "Save Lot",
+    "uploading": "Uploading..."
+  },
+  "categories": {
+    "CRT": "Old TV / CRT",
+    "LCD": "LCD / LED Screen",
+    "PCB": "Circuit Board (PCB)",
+    "Cable": "Copper Wire / Cable",
+    "Battery": "Batteries",
+    "Motor": "Motors & Compressors",
+    "Plastic": "E-Waste Plastic",
+    "Mixed": "Mixed Scrap",
+    "Other": "Other Secondary Materials"
+  },
+  "prices": {
+    "board": "Today's Rates",
+    "trend": "Trends",
+    "perKg": "per kg",
+    "speak": "Listen"
+  },
+  "recycler": {
+    "nearby": "Nearby Recyclers",
+    "call": "Call",
+    "request": "Request Pickup",
+    "distance": "Distance",
+    "rate": "Rate"
+  },
+  "handover": {
+    "title": "Material Handover",
+    "reference": "Reference Code",
+    "confirm": "Confirm Handover",
+    "qrScan": "Show QR Code"
+  },
+  "ledger": {
+    "title": "My Earnings",
+    "total": "Total Earnings",
+    "pending": "Pending Payout",
+    "paid": "Disbursed"
+  },
+  "safety": {
+    "title": "Safety Guidelines",
+    "burnCable": "Do not burn cables",
+    "breakCRT": "Do not break CRT glass",
+    "battery": "Battery handling precautions",
+    "pcb": "Circuit board safety",
+    "gloves": "Wear protective gloves",
+    "call112": "Emergency Helpline 112"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "offline": "Offline - Data will sync when connected"
+  },
+  "lang": {
+    "select": "Select Language",
+    "hindi": "Hindi (हिन्दी)",
+    "marathi": "Marathi (मराठी)",
+    "english": "English"
+  }
+}

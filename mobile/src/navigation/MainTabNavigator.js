@@ -29,12 +29,12 @@ export default function MainTabNavigator() {
         const tab = TABS.find((t) => t.name === route.name);
         return {
           headerShown: false,
-          tabBarActiveTintColor: '#1B5E20',
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: '#0D9488',
+          tabBarInactiveTintColor: '#64748B',
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
             borderTopWidth: 1,
-            borderTopColor: '#E0E0E0',
+            borderTopColor: '#E2E8F0',
             paddingBottom: 4,
             paddingTop: 4,
             height: 60,

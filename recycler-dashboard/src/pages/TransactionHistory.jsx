@@ -86,31 +86,45 @@ export default function TransactionHistory() {
       </Box>
 
       {/* Summary row */}
-      <Box sx={{ display: 'flex', gap: 3, mb: 2, p: 2, bgcolor: '#E8F5E9', borderRadius: 2 }}>
-        <Box><Typography variant="caption" color="text.secondary">Total Transactions</Typography><Typography fontWeight="bold">{filtered.length}</Typography></Box>
-        <Box><Typography variant="caption" color="text.secondary">Total Weight</Typography><Typography fontWeight="bold">{totalWeight.toFixed(2)} kg</Typography></Box>
-        <Box><Typography variant="caption" color="text.secondary">Total Value</Typography><Typography fontWeight="bold" color="success.main">₹{totalValue.toFixed(2)}</Typography></Box>
+      <Box sx={{ display: 'flex', gap: 4, mb: 2.5, p: 2.5, bgcolor: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 2 }}>
+        <Box>
+          <Typography variant="caption" color="text.secondary" fontWeight="600" sx={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            Total Transactions
+          </Typography>
+          <Typography variant="h6" fontWeight="800" color="#0F172A">{filtered.length}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="caption" color="text.secondary" fontWeight="600" sx={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            Total Weight
+          </Typography>
+          <Typography variant="h6" fontWeight="800" color="#0F172A">{totalWeight.toFixed(2)} kg</Typography>
+        </Box>
+        <Box>
+          <Typography variant="caption" color="text.secondary" fontWeight="600" sx={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            Total Value
+          </Typography>
+          <Typography variant="h6" fontWeight="800" color="#0D9488">₹{totalValue.toFixed(2)}</Typography>
+        </Box>
       </Box>
 
-      <TableContainer component={Paper} elevation={2}>
+      <TableContainer component={Paper} elevation={1}>
         <Table size="small">
-          <TableHead sx={{ bgcolor: '#1B5E20' }}>
+          <TableHead>
             <TableRow>
               {['Date','Lot ID','Category','Weight (kg)','Final Price','Payment','Status'].map((h) => (
-                <TableCell key={h} sx={{ color: '#fff', fontWeight: 'bold' }}>{h}</TableCell>
+                <TableCell key={h}>{h}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {paginated.map((row) => {
-              const statusColor = row.transaction_status === 'Completed' ? '#f1f8e9' : row.transaction_status === 'Cancelled' ? '#fafafa' : '#fff';
               return (
-                <TableRow key={row.id} hover sx={{ bgcolor: statusColor }}>
+                <TableRow key={row.id} hover>
                   <TableCell>{row.collection_datetime ? format(new Date(row.collection_datetime), 'dd/MM/yy') : '—'}</TableCell>
-                  <TableCell><Typography variant="caption" fontFamily="monospace">{row.lot_id?.slice(0,8).toUpperCase()}</Typography></TableCell>
+                  <TableCell><Typography variant="caption" fontFamily="monospace" fontWeight="600">{row.lot_id?.slice(0,8).toUpperCase()}</Typography></TableCell>
                   <TableCell>{row.material_category}</TableCell>
-                  <TableCell>{row.total_weight_kg}</TableCell>
-                  <TableCell>₹{(row.final_price_inr || row.quoted_price_inr || 0).toFixed(2)}</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>{row.total_weight_kg}</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>₹{(row.final_price_inr || row.quoted_price_inr || 0).toFixed(2)}</TableCell>
                   <TableCell><StatusChip status={row.payment_status} /></TableCell>
                   <TableCell><StatusChip status={row.transaction_status} /></TableCell>
                 </TableRow>

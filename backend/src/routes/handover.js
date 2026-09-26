@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const { Traceability, Transaction, Material, Recycler, Collector, EPRLog } = require('../models');
 const { authenticate } = require('../middleware/auth');
 const { generateHandoverRef } = require('../utils/generateReference');
+const { curateVerifiedLot } = require('../services/curationPipeline');
 const logger = require('../utils/logger');
 
 function verifyQrToken(token) {
@@ -98,28 +99,67 @@ router.post(
       const transferLng = parseFloat(gps_lng) || parseFloat(recycler.lng) || 72.8777;
       const timestamp = new Date();
       const ref = targetRef || generateHandoverRef();
+      const isUpi = payment_mode === 'UPI';
+      const upiUtr = isUpi
+        ? `UTR${Date.now().toString().slice(-8)}${Math.floor(1000 + Math.random() * 9000)}`
+        : null;
+      const upiDeepLink = `upi://pay?pa=kabadconnect.settle@icici&pn=KabadConnect%20Recycling&am=${calculatedPrice}&tn=EWaste%20Handover%20${ref}&tr=${(lot.id.replace(/-/g, '')).slice(0, 30)}&cu=INR`;
 
-      // 1. Create Immutable Transaction Record
-      const transaction = await Transaction.create({
-        id: uuidv4(),
-        lot_id: lot.id,
-        collector_id: lot.collector_id,
-        recycler_id: recycler.id,
-        material_category: lot.category,
-        total_weight_kg: netWeight,
-        quoted_price_inr: lot.estimated_value_inr || calculatedPrice,
-        final_price_inr: calculatedPrice,
-        collection_lat: transferLat,
-        collection_lng: transferLng,
-        handover_lat: transferLat,
-        handover_lng: transferLng,
-        collection_datetime: lot.created_at || timestamp,
-        handover_datetime: timestamp,
-        payment_mode,
-        payment_status: payment_mode === 'Cash' ? 'Paid' : 'Pending',
-        transaction_status: 'Completed',
-        anomaly_flag: false,
-      });
+      // 1. Find or create transaction
+      let existingTrace = null;
+      if (ref) {
+        existingTrace = await Traceability.findOne({ where: { handover_reference: ref.toUpperCase() } });
+      }
+
+      let transaction = null;
+      if (existingTrace && existingTrace.transaction_id) {
+        transaction = await Transaction.findByPk(existingTrace.transaction_id);
+      }
+      if (!transaction) {
+        transaction = await Transaction.findOne({ where: { lot_id: lot.id } });
+      }
+
+      if (transaction) {
+        await transaction.update({
+          recycler_id: recycler.id,
+          total_weight_kg: netWeight,
+          quoted_price_inr: lot.estimated_value_inr || calculatedPrice,
+          final_price_inr: calculatedPrice,
+          collection_lat: transferLat,
+          collection_lng: transferLng,
+          handover_lat: transferLat,
+          handover_lng: transferLng,
+          handover_datetime: timestamp,
+          payment_mode: isUpi ? 'UPI' : 'Cash',
+          payment_status: 'Paid',
+          transaction_status: 'Completed',
+          upi_vpa: req.body.collector_vpa || transaction.upi_vpa,
+          upi_utr: upiUtr,
+        });
+      } else {
+        transaction = await Transaction.create({
+          id: uuidv4(),
+          lot_id: lot.id,
+          collector_id: lot.collector_id,
+          recycler_id: recycler.id,
+          material_category: lot.category,
+          total_weight_kg: netWeight,
+          quoted_price_inr: lot.estimated_value_inr || calculatedPrice,
+          final_price_inr: calculatedPrice,
+          collection_lat: transferLat,
+          collection_lng: transferLng,
+          handover_lat: transferLat,
+          handover_lng: transferLng,
+          collection_datetime: lot.created_at || timestamp,
+          handover_datetime: timestamp,
+          payment_mode: isUpi ? 'UPI' : 'Cash',
+          payment_status: 'Paid',
+          transaction_status: 'Completed',
+          anomaly_flag: false,
+          upi_vpa: req.body.collector_vpa || null,
+          upi_utr: upiUtr,
+        });
+      }
 
       // 2. Create CPCB-Compliant Tamper-Evident EPRLog
       const anonCollectorId = crypto
@@ -147,12 +187,21 @@ router.post(
         gps_lng: transferLng,
         handover_timestamp: timestamp,
         audit_hash: auditHash,
+        payment_mode: isUpi ? 'UPI' : 'Cash',
+        upi_utr: upiUtr,
       });
 
-      // 3. Update Traceability Record for backward compatibility
-      await Traceability.findOrCreate({
-        where: { transaction_id: transaction.id },
-        defaults: {
+      // 3. Update or create Traceability Record
+      if (existingTrace) {
+        await existingTrace.update({
+          transaction_id: transaction.id,
+          weight_at_handover_kg: netWeight,
+          recycler_confirmed: true,
+          recycler_confirm_time: timestamp,
+          subsequent_status: 'ReceivedAtFacility',
+        });
+      } else {
+        await Traceability.create({
           id: uuidv4(),
           lot_id: lot.id,
           transaction_id: transaction.id,
@@ -164,8 +213,8 @@ router.post(
           recycler_confirmed: true,
           recycler_confirm_time: timestamp,
           subsequent_status: 'ReceivedAtFacility',
-        },
-      });
+        });
+      }
 
       // 4. Update Lot Status to VERIFIED
       await lot.update({
@@ -180,31 +229,90 @@ router.post(
         });
       }
 
-      logger.info(`Handover verified for lot ${lot.id}. EPR record created: ${eprLog.id}`);
+      // 6. Curate into Ground-Truth ML Dataset & Update Dynamic Price
+      const curatedRecord = await curateVerifiedLot(lot, transaction, recycler);
+
+      logger.info(`Handover verified for lot ${lot.id}. EPR record created: ${eprLog.id} (Payment: ${isUpi ? 'UPI ' + upiUtr : 'Cash'})`);
 
       res.status(200).json({
         success: true,
-        message: 'Handover verified and CPCB EPR record generated successfully',
+        message: 'Handover verified, CPCB EPR record generated, and Ground-Truth Dataset updated',
         lot_status: 'VERIFIED',
         handover_reference: ref,
+        curated_record: curatedRecord,
         transaction: {
           id: transaction.id,
           final_price_inr: calculatedPrice,
           total_weight_kg: netWeight,
+          payment_mode: transaction.payment_mode,
           payment_status: transaction.payment_status,
+          upi_utr: transaction.upi_utr,
         },
         epr_log: {
           id: eprLog.id,
           cpcb_reg_no: eprLog.recycler_cpcb_reg_no,
           material_cpcb_code: eprLog.material_cpcb_code,
           audit_hash: eprLog.audit_hash,
+          upi_utr: eprLog.upi_utr,
         },
+        upi: isUpi ? {
+          dynamic_qr_string: upiDeepLink,
+          upi_utr: upiUtr,
+          amount: calculatedPrice,
+          payee_vpa: 'kabadconnect.settle@icici',
+          collector_vpa: req.body.collector_vpa || null,
+        } : null,
       });
     } catch (err) {
       next(err);
     }
   }
 );
+
+/**
+ * POST /handover/upi-payout
+ * Instant direct-to-VPA simulated payout (RazorpayX / IMPS / NPCI UPI)
+ */
+router.post('/upi-payout', async (req, res, next) => {
+  try {
+    const { transaction_id, vpa } = req.body;
+    if (!transaction_id || !vpa) {
+      return res.status(400).json({ success: false, message: 'transaction_id and collector vpa are required' });
+    }
+    const tx = await Transaction.findByPk(transaction_id);
+    if (!tx) return res.status(404).json({ success: false, message: 'Transaction not found' });
+
+    const utr = 'UTR' + Date.now().toString().slice(-8) + Math.floor(1000 + Math.random() * 9000);
+    await tx.update({
+      payment_mode: 'UPI',
+      payment_status: 'Paid',
+      upi_vpa: vpa,
+      upi_utr: utr,
+    });
+
+    const epr = await EPRLog.findOne({ where: { transaction_id } });
+    if (epr) {
+      await epr.update({ upi_utr: utr, payment_mode: 'UPI' });
+    }
+
+    logger.info(`Direct UPI payout settled: ${utr} to ${vpa} for ₹${tx.final_price_inr}`);
+
+    res.json({
+      success: true,
+      message: 'Instant UPI payout settled successfully',
+      payout: {
+        transaction_id,
+        amount: tx.final_price_inr,
+        vpa,
+        utr,
+        settled_at: new Date().toISOString(),
+        gateway: 'NPCI / IMPS Instant Escrow',
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 /**
  * POST /handover/initiate (Legacy compatibility)
@@ -374,7 +482,7 @@ router.get('/:reference', async (req, res, next) => {
       handover: {
         ...trace.toJSON(),
         transaction: transaction ? { id: transaction.id, status: transaction.transaction_status, quoted_price_inr: transaction.quoted_price_inr } : null,
-        lot: lot ? { id: lot.id, category: lot.category, approximate_weight_kg: lot.approximate_weight_kg, description: lot.description, cpcb_code: lot.cpcb_code, status: lot.status } : null,
+        lot: lot ? { id: lot.id, category: lot.category, approximate_weight_kg: lot.approximate_weight_kg, description: lot.description, cpcb_code: lot.cpcb_code, status: lot.status, estimated_value_inr: lot.estimated_value_inr } : null,
       },
     });
   } catch (err) {

@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 7.3.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://192.168.1.100:3000/api",
+        "EXPO_PUBLIC_ML_URL": "http://192.168.1.100:8001/predict"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://kabadconnect-backend.onrender.com/api",
+        "EXPO_PUBLIC_ML_URL": "https://kabadconnect-ml.onrender.com/predict"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://kabadconnect-backend.onrender.com/api",
+        "EXPO_PUBLIC_ML_URL": "https://kabadconnect-ml.onrender.com/predict"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

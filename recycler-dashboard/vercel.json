@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://kabadconnect-api.onrender.com/api/:match*"
+    },
+    {
+      "source": "/ml/:match*",
+      "destination": "https://kabadconnect-ml.onrender.com/:match*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

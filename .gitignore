@@ -33,3 +33,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.joblib
+
+# Scratch & runtime uploads
+scratch/
+backend/uploads/lots/*
+!backend/uploads/lots/.gitkeep

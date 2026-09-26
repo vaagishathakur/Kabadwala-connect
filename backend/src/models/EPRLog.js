@@ -75,6 +75,14 @@ const EPRLog = sequelize.define('EPRLog', {
     allowNull: false,
     comment: 'Tamper-evident SHA-256 hash chaining transaction metadata',
   },
+  payment_mode: {
+    type: DataTypes.STRING,
+    defaultValue: 'Cash',
+  },
+  upi_utr: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   timestamps: true,
   tableName: 'epr_logs',

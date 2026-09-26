@@ -1,18 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2e7d32', // Green theme for recycling
-    },
-    secondary: {
-      main: '#f57c00',
-    },
-  },
-});
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import theme from './theme'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

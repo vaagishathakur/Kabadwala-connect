@@ -15,8 +15,17 @@ export const CATEGORY_COLORS = MATERIAL_CATEGORIES.reduce((acc, curr) => {
   return acc;
 }, {});
 
-export const CONDITION_OPTIONS = ['Good', 'Damaged', 'Unknown'];
-export const SOURCE_OPTIONS = ['Household', 'Commercial', 'Industrial'];
+export const CONDITION_OPTIONS = [
+  { key: 'Good', label: 'अच्छी स्थिति / Good', icon: 'check-circle' },
+  { key: 'Damaged', label: 'खराब / Damaged', icon: 'build' },
+  { key: 'Unknown', label: 'सामान्य / Standard', icon: 'help-outline' },
+];
+
+export const SOURCE_OPTIONS = [
+  { key: 'Household', label: 'घर से / Home', icon: 'home' },
+  { key: 'Commercial', label: 'दुकान / Shop', icon: 'store' },
+  { key: 'Industrial', label: 'कारखाना / Factory', icon: 'business' },
+];
 export const PAYMENT_MODES = ['Cash', 'UPI', 'Bank Transfer'];
 
 export const SYNC_INTERVAL_MS = 30000;

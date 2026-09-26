@@ -16,8 +16,8 @@ Transaction.belongsTo(Collector, { foreignKey: 'collector_id' });
 Collector.hasMany(Material, { foreignKey: 'collector_id' });
 Material.belongsTo(Collector, { foreignKey: 'collector_id' });
 
-Recycler.hasMany(Transaction, { foreignKey: 'recycler_id' });
-Transaction.belongsTo(Recycler, { foreignKey: 'recycler_id' });
+Recycler.hasMany(Transaction, { foreignKey: 'recycler_id', as: 'transactions' });
+Transaction.belongsTo(Recycler, { foreignKey: 'recycler_id', as: 'recycler' });
 
 Recycler.hasMany(Price, { foreignKey: 'recycler_id' });
 Price.belongsTo(Recycler, { foreignKey: 'recycler_id' });

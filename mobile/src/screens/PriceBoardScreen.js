@@ -91,7 +91,7 @@ export default function PriceBoardScreen() {
   if (loading && !prices.length) {
     return (
       <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" color="#1B5E20" style={{ marginTop: 40 }} />
+        <ActivityIndicator size="large" color="#0D9488" style={{ marginTop: 40 }} />
       </SafeAreaView>
     );
   }
@@ -135,7 +135,7 @@ export default function PriceBoardScreen() {
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.list}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#1B5E20']} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#0D9488']} />}
         ListEmptyComponent={
           <View style={styles.empty}>
             <MaterialIcons name="wifi-off" size={48} color="#ccc" />
@@ -148,15 +148,15 @@ export default function PriceBoardScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F5F5' },
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
   header: {
-    backgroundColor: '#1B5E20', paddingHorizontal: 16, paddingVertical: 14,
+    backgroundColor: '#0D9488', paddingHorizontal: 16, paddingVertical: 14,
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
   },
   headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#fff' },
-  headerSub: { fontSize: 11, color: '#A5D6A7', marginTop: 2 },
+  headerSub: { fontSize: 11, color: '#99F6E4', marginTop: 2 },
   speakAllBtn: {
-    backgroundColor: '#388E3C', borderRadius: 20, paddingHorizontal: 14,
+    backgroundColor: '#0F766E', borderRadius: 20, paddingHorizontal: 14,
     paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 6,
   },
   speakAllText: { color: '#fff', fontWeight: '600', fontSize: 13 },

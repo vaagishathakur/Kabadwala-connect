@@ -34,4 +34,5 @@ export const setAuthToken = async (token) => {
   }
 };
 
+export { api };
 export default api;

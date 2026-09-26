@@ -14,10 +14,10 @@ export default function AppNavigator() {
     <Stack.Navigator
       initialRouteName="LanguageSelect"
       screenOptions={{
-        headerStyle: { backgroundColor: '#1B5E20' },
+        headerStyle: { backgroundColor: '#0D9488', elevation: 0, shadowOpacity: 0 },
         headerTintColor: '#FFFFFF',
         headerTitleStyle: { fontWeight: 'bold' },
-        cardStyle: { backgroundColor: '#F5F5F5' },
+        cardStyle: { backgroundColor: '#F8FAFC' },
       }}
     >
       <Stack.Screen

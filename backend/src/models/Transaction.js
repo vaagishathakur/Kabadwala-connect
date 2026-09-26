@@ -74,7 +74,15 @@ const Transaction = sequelize.define('Transaction', {
   anomaly_flag: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-  }
+  },
+  upi_vpa: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  upi_utr: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   timestamps: true,
 });

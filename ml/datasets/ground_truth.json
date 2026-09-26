@@ -1,0 +1,74 @@
+[
+  {
+    "curated_id": "GT-14AAA833",
+    "lot_id": "538cbaff-5781-425d-92c7-cd1cb52489b4",
+    "transaction_id": "14aaa833-ebfd-4b2f-a80d-24aeaff5eb18",
+    "ground_truth_category": "PCB",
+    "sub_category": "Motherboards",
+    "claimed_weight_kg": "15.00",
+    "confirmed_net_weight_kg": 14.21,
+    "purity_percentage": 100,
+    "payout_amount_inr": 1776,
+    "unit_rate_inr_kg": 124.98,
+    "recycler_id": "e8459c23-213a-459d-87bf-253fd8688b36",
+    "recycler_authorization": "MPCB-HW-2024-MUM-0187",
+    "verified_timestamp": "2026-09-26T13:51:53.961Z",
+    "image_refs": [
+      "/uploads/lots/538cbaff-5781-425d-92c7-cd1cb52489b4_0.jpg"
+    ],
+    "curated_status": "VALIDATED_BY_RECYCLER"
+  },
+  {
+    "curated_id": "GT-D2552CB3",
+    "lot_id": "3966f8e1-3410-4eaf-a1b8-6862321f5beb",
+    "transaction_id": "d2552cb3-b891-4eb6-86d4-e97cad4c49ad",
+    "ground_truth_category": "PCB",
+    "sub_category": "Motherboards",
+    "claimed_weight_kg": "15.00",
+    "confirmed_net_weight_kg": 14.21,
+    "purity_percentage": 100,
+    "payout_amount_inr": 1776,
+    "unit_rate_inr_kg": 124.98,
+    "recycler_id": "e8459c23-213a-459d-87bf-253fd8688b36",
+    "recycler_authorization": "MPCB-HW-2024-MUM-0187",
+    "verified_timestamp": "2026-09-26T13:53:58.085Z",
+    "image_refs": [
+      "/uploads/lots/3966f8e1-3410-4eaf-a1b8-6862321f5beb_0.jpg"
+    ],
+    "curated_status": "VALIDATED_BY_RECYCLER"
+  },
+  {
+    "curated_id": "GT-99FFC545",
+    "lot_id": "01295b1b-fb59-414a-bbda-38dac1364a03",
+    "transaction_id": "99ffc545-de8c-4ad5-b16b-0432ec26234f",
+    "ground_truth_category": "PCB",
+    "sub_category": "Server Motherboards",
+    "claimed_weight_kg": "10.50",
+    "confirmed_net_weight_kg": 9.69,
+    "purity_percentage": 100,
+    "payout_amount_inr": 1017,
+    "unit_rate_inr_kg": 104.95,
+    "recycler_id": "e8459c23-213a-459d-87bf-253fd8688b36",
+    "recycler_authorization": "MPCB-HW-2024-MUM-0187",
+    "verified_timestamp": "2026-09-26T13:55:21.119Z",
+    "image_refs": [],
+    "curated_status": "VALIDATED_BY_RECYCLER"
+  },
+  {
+    "curated_id": "GT-21DC4064",
+    "lot_id": "bf3cee1b-c39d-4181-b563-3c002955b603",
+    "transaction_id": "21dc4064-3d45-4262-a491-bb537139c2f0",
+    "ground_truth_category": "PCB",
+    "sub_category": "Motherboards",
+    "claimed_weight_kg": 5,
+    "confirmed_net_weight_kg": 4.94,
+    "purity_percentage": 100,
+    "payout_amount_inr": 592.8,
+    "unit_rate_inr_kg": 120,
+    "recycler_id": "29d4aa04-f5c9-491d-a746-c44a971e813c",
+    "recycler_authorization": "CPCB-REG-2024-MH-0042",
+    "verified_timestamp": "2026-09-26T14:25:12.421Z",
+    "image_refs": [],
+    "curated_status": "VALIDATED_BY_RECYCLER"
+  }
+]

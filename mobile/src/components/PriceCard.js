@@ -31,7 +31,7 @@ export default function PriceCard({ category, price, trend, unit, onSpeak }) {
         </View>
       </View>
       <TouchableOpacity style={styles.speakButton} onPress={onSpeak}>
-        <MaterialIcons name="volume-up" size={24} color="#1B5E20" />
+        <MaterialIcons name="volume-up" size={24} color="#0D9488" />
       </TouchableOpacity>
     </View>
   );

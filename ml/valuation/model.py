@@ -32,7 +32,7 @@ class PriceEstimator:
         # One-hot encoding
         df_encoded = pd.get_dummies(df, columns=['category', 'location_city'])
         
-        X = df_encoded.drop(columns=['buying_price_inr', 'date_recorded', 'sub_category', 'location_state', 'unit', 'market_range_low', 'market_range_high'], errors='ignore')
+        X = df_encoded.drop(columns=['buying_price_inr', 'date_recorded', 'sub_category', 'location_state', 'unit', 'market_range_low', 'market_range_high', 'source'], errors='ignore')
         y = df['buying_price_inr']
         
         self.features = list(X.columns)

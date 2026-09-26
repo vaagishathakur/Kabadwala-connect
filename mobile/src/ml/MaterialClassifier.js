@@ -1,35 +1,49 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 import { ML_SERVICE_URL } from '../api/config';
 import { MATERIAL_CATEGORIES } from '../utils/constants';
 
-class MaterialClassifier {
+export class MaterialClassifier {
   constructor() {
     this.modelLoaded = false;
-    // TFLite setup can go here if fully local. Using API for fallback as requested.
   }
 
   async classify(imageUri) {
+    if (!imageUri) return null;
     try {
       const formData = new FormData();
-      formData.append('image', {
-        uri: imageUri,
-        type: 'image/jpeg',
-        name: 'upload.jpg',
-      });
+
+      if (Platform.OS === 'web' && (imageUri.startsWith('blob:') || imageUri.startsWith('data:'))) {
+        const resp = await fetch(imageUri);
+        const blob = await resp.blob();
+        formData.append('file', blob, 'scrap.jpg');
+        formData.append('image', blob, 'scrap.jpg');
+      } else {
+        const fileObj = {
+          uri: imageUri,
+          type: 'image/jpeg',
+          name: 'scrap.jpg',
+        };
+        formData.append('file', fileObj);
+        formData.append('image', fileObj);
+      }
 
       const response = await axios.post(ML_SERVICE_URL, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        timeout: 5000,
+        timeout: 6000,
       });
 
       if (response.data && response.data.category) {
         return {
           category: response.data.category,
-          confidence: response.data.confidence || 0.85
+          confidence: response.data.confidence || 0.75,
+          is_fallback: !!response.data.is_fallback,
+          model_type: response.data.model_type || 'cloud_vision',
+          classification_method: response.data.classification_method || 'Vision Analysis'
         };
       }
     } catch (error) {
-      console.warn('ML Classification failed:', error.message);
+      console.warn('ML Classification API unavailable, defaulting to manual selection:', error.message);
     }
     return null;
   }
@@ -40,3 +54,4 @@ class MaterialClassifier {
 }
 
 export default new MaterialClassifier();
+

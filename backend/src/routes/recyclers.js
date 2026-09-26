@@ -18,14 +18,26 @@ router.get('/', async (req, res, next) => {
     const { lat, lng, category, radius_km = 100, limit = 20 } = req.query;
 
     const where = { authorization_status: 'Active' };
-    if (category) {
-      where.materials_accepted = { [Op.contains]: [category] };
-    }
-
     const recyclers = await Recycler.findAll({ where, limit: parseInt(limit) });
 
-    // If location provided, filter by distance and add distance field
-    let result = recyclers;
+    let filtered = recyclers;
+    if (category) {
+      filtered = recyclers.filter((r) => {
+        const mats = r.materials_accepted;
+        if (Array.isArray(mats)) return mats.includes(category);
+        if (typeof mats === 'string') {
+          try {
+            const parsed = JSON.parse(mats);
+            if (Array.isArray(parsed)) return parsed.includes(category);
+          } catch (e) {
+            return mats.includes(category);
+          }
+        }
+        return true;
+      });
+    }
+
+    let result = filtered;
     if (lat && lng) {
       const collectorLat = parseFloat(lat);
       const collectorLng = parseFloat(lng);

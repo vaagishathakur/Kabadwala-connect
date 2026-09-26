@@ -87,14 +87,14 @@ export default function LotCreateScreen({ navigation }) {
     setStep(3);
   };
 
-  const saveLotLocal = async () => {
+  const saveLotLocal = async (shouldMatch = false) => {
     setSaving(true);
     try {
-      const lotId = uuidv4();
+      let lotId = estimate?.id || uuidv4();
       const lot = {
         id: lotId,
         category,
-        sub_category: subCategory,
+        sub_category: subCategory || (category ? `${category} Scrap` : 'General'),
         description: `${category} - ${weight} kg`,
         image_refs: photo ? JSON.stringify([photo]) : '[]',
         approximate_weight_kg: parseFloat(weight),
@@ -102,16 +102,26 @@ export default function LotCreateScreen({ navigation }) {
         source_type: sourceType,
         estimated_value_inr: estimate?.estimated_value_inr || null,
         created_at: new Date().toISOString(),
-        synced: 0,
+        synced: estimate?.id ? 1 : 0,
       };
-      await saveLot(lot);
-      await addToSyncQueue('lot', 'create', lot);
 
-      Alert.alert(
-        '✅ लॉट सेव हुआ!',
-        `Reference: ${lotId.split('-')[0].toUpperCase()}\n${t('common.offline')}`,
-        [{ text: t('common.ok'), onPress: () => navigation.goBack() }]
-      );
+      await saveLot(lot);
+      if (!estimate?.id) {
+        await addToSyncQueue('lot', 'create', lot);
+      }
+
+      if (shouldMatch) {
+        navigation.navigate('Main', {
+          screen: 'Recyclers',
+          params: { lotId: lot.id, category: lot.category }
+        });
+      } else {
+        Alert.alert(
+          '✅ लॉट सेव हुआ!',
+          `Reference: ${lotId.split('-')[0].toUpperCase()}\n${t('common.offline')}`,
+          [{ text: t('common.ok'), onPress: () => navigation.goBack() }]
+        );
+      }
     } catch (e) {
       Alert.alert(t('common.error'), e.message);
     }
@@ -123,16 +133,21 @@ export default function LotCreateScreen({ navigation }) {
       case 0: return (
         <View style={styles.stepContainer}>
           <Text style={styles.stepTitle}>📷 {t('lot.create')}</Text>
-          <Text style={styles.stepHint}>सामान की फ़ोटो लें</Text>
+          <Text style={styles.stepHint}>कबाड़ / ई-वेस्ट की साफ फ़ोटो लें</Text>
           <TouchableOpacity style={styles.bigBtn} onPress={() => pickPhoto(true)}>
             <MaterialIcons name="camera-alt" size={48} color="#fff" />
-            <Text style={styles.bigBtnText}>कैमरा खोलें</Text>
+            <Text style={styles.bigBtnText}>कैमरा खोलें (Take Photo)</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.bigBtn, { backgroundColor: '#388E3C' }]} onPress={() => pickPhoto(false)}>
+          <TouchableOpacity style={[styles.bigBtn, { backgroundColor: '#2E7D32' }]} onPress={() => pickPhoto(false)}>
             <MaterialIcons name="photo-library" size={48} color="#fff" />
-            <Text style={styles.bigBtnText}>गैलरी से चुनें</Text>
+            <Text style={styles.bigBtnText}>गैलरी से चुनें (From Gallery)</Text>
           </TouchableOpacity>
-          {loading && <ActivityIndicator size="large" color="#1B5E20" style={{ marginTop: 16 }} />}
+          {loading && (
+            <View style={{ marginTop: 20, alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#1B5E20" />
+              <Text style={{ marginTop: 8, color: '#1B5E20', fontWeight: '600' }}>AI पहचान चल रही है...</Text>
+            </View>
+          )}
         </View>
       );
 
@@ -141,12 +156,21 @@ export default function LotCreateScreen({ navigation }) {
           <View style={styles.stepContainer}>
             {photo && <Image source={{ uri: photo }} style={styles.preview} resizeMode="cover" />}
             {aiSuggestion && (
-              <View style={styles.aiChip}>
-                <MaterialIcons name="auto-awesome" size={16} color="#1B5E20" />
-                <Text style={styles.aiText}>AI सुझाव: {aiSuggestion.category} ({Math.round(aiSuggestion.confidence * 100)}%)</Text>
+              <View style={[styles.aiChip, aiSuggestion.is_fallback && styles.aiChipFallback]}>
+                <MaterialIcons
+                  name={aiSuggestion.is_fallback ? "info-outline" : "auto-awesome"}
+                  size={20}
+                  color={aiSuggestion.is_fallback ? "#B71C1C" : "#1B5E20"}
+                />
+                <Text style={[styles.aiText, aiSuggestion.is_fallback && styles.aiTextFallback]}>
+                  {aiSuggestion.is_fallback
+                    ? `अनुमान (रंग/बनावट): ${t(`categories.${aiSuggestion.category}`)} • कृपया नीचे पक्का करें`
+                    : `🤖 Cloud Vision पहचान: ${t(`categories.${aiSuggestion.category}`)} (${Math.round(aiSuggestion.confidence * 100)}%)`}
+                </Text>
               </View>
             )}
             <Text style={styles.stepTitle}>{t('lot.category')}</Text>
+            <Text style={styles.stepHint}>नीचे से सही सामान का चित्र चुनें:</Text>
             <PictogramSelector
               categories={MATERIAL_CATEGORIES}
               selected={category}
@@ -157,7 +181,7 @@ export default function LotCreateScreen({ navigation }) {
               onPress={() => category && setStep(2)}
               disabled={!category}
             >
-              <Text style={styles.nextBtnText}>अगला →</Text>
+              <Text style={styles.nextBtnText}>अगला: वज़न डालें →</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -167,6 +191,7 @@ export default function LotCreateScreen({ navigation }) {
         <ScrollView>
           <View style={styles.stepContainer}>
             <Text style={styles.stepTitle}>⚖️ {t('lot.weight')}</Text>
+            <Text style={styles.stepHint}>कांटे पर तौला गया वज़न लिखें</Text>
             <TextInput
               style={styles.weightInput}
               placeholder="0.0"
@@ -177,34 +202,44 @@ export default function LotCreateScreen({ navigation }) {
             />
             <Text style={styles.unitLabel}>किलोग्राम (kg)</Text>
 
-            <Text style={styles.sectionLabel}>स्थिति (Condition)</Text>
+            <Text style={styles.sectionLabel}>सामान की स्थिति (Condition)</Text>
             <View style={styles.row}>
-              {CONDITION_OPTIONS.map((c) => (
-                <TouchableOpacity
-                  key={c.key}
-                  style={[styles.chip, condition === c.key && styles.chipSelected]}
-                  onPress={() => setCondition(c.key)}
-                >
-                  <Text style={[styles.chipText, condition === c.key && styles.chipTextSelected]}>{c.label}</Text>
-                </TouchableOpacity>
-              ))}
+              {CONDITION_OPTIONS.map((c) => {
+                const key = typeof c === 'string' ? c : c.key;
+                const label = typeof c === 'string' ? c : c.label;
+                const isSelected = condition === key;
+                return (
+                  <TouchableOpacity
+                    key={key}
+                    style={[styles.chip, isSelected && styles.chipSelected]}
+                    onPress={() => setCondition(key)}
+                  >
+                    <Text style={[styles.chipText, isSelected && styles.chipTextSelected]}>{label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
-            <Text style={styles.sectionLabel}>स्रोत (Source)</Text>
+            <Text style={styles.sectionLabel}>कहाँ से मिला (Source)</Text>
             <View style={styles.row}>
-              {SOURCE_OPTIONS.map((s) => (
-                <TouchableOpacity
-                  key={s.key}
-                  style={[styles.chip, sourceType === s.key && styles.chipSelected]}
-                  onPress={() => setSourceType(s.key)}
-                >
-                  <Text style={[styles.chipText, sourceType === s.key && styles.chipTextSelected]}>{s.label}</Text>
-                </TouchableOpacity>
-              ))}
+              {SOURCE_OPTIONS.map((s) => {
+                const key = typeof s === 'string' ? s : s.key;
+                const label = typeof s === 'string' ? s : s.label;
+                const isSelected = sourceType === key;
+                return (
+                  <TouchableOpacity
+                    key={key}
+                    style={[styles.chip, isSelected && styles.chipSelected]}
+                    onPress={() => setSourceType(key)}
+                  >
+                    <Text style={[styles.chipText, isSelected && styles.chipTextSelected]}>{label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
             <TouchableOpacity style={styles.nextBtn} onPress={goToReview}>
-              <Text style={styles.nextBtnText}>समीक्षा करें →</Text>
+              <Text style={styles.nextBtnText}>समीक्षा करें (Review) →</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -213,27 +248,35 @@ export default function LotCreateScreen({ navigation }) {
       case 3: return (
         <ScrollView>
           <View style={styles.stepContainer}>
-            <Text style={styles.stepTitle}>✅ समीक्षा / Review</Text>
+            <Text style={styles.stepTitle}>✅ लॉट की समीक्षा / Summary</Text>
             {photo && <Image source={{ uri: photo }} style={styles.preview} resizeMode="cover" />}
             <View style={styles.reviewCard}>
-              <ReviewRow label="श्रेणी" value={t(`categories.${category}`)} />
-              <ReviewRow label="वज़न" value={`${weight} kg`} />
-              <ReviewRow label="स्थिति" value={condition} />
-              <ReviewRow label="स्रोत" value={sourceType} />
+              <ReviewRow label="सामान / Category" value={t(`categories.${category}`) || category} />
+              <ReviewRow label="वज़न / Weight" value={`${weight} kg`} />
+              <ReviewRow label="स्थिति / Condition" value={condition} />
+              <ReviewRow label="स्रोत / Source" value={sourceType} />
               {estimate?.estimated_value_inr && (
-                <ReviewRow label="अनुमानित मूल्य" value={formatCurrency(estimate.estimated_value_inr)} highlight />
+                <ReviewRow label="अनुमानित भाव / Fair Value" value={formatCurrency(estimate.estimated_value_inr)} highlight />
               )}
             </View>
 
             <TouchableOpacity
-              style={[styles.nextBtn, saving && { opacity: 0.6 }]}
-              onPress={saveLotLocal}
+              style={[styles.nextBtn, { backgroundColor: '#1B5E20' }, saving && { opacity: 0.6 }]}
+              onPress={() => saveLotLocal(true)}
               disabled={saving}
             >
               {saving
                 ? <ActivityIndicator color="#fff" />
-                : <Text style={styles.nextBtnText}>💾 {t('lot.save')}</Text>
+                : <Text style={styles.nextBtnText}>🏭 पास के रिसाइकलर खोजें (Match Recyclers) →</Text>
               }
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.secondaryBtn, saving && { opacity: 0.6 }]}
+              onPress={() => saveLotLocal(false)}
+              disabled={saving}
+            >
+              <Text style={styles.secondaryBtnText}>💾 केवल सहेजें (Save Only)</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -293,6 +336,31 @@ const styles = StyleSheet.create({
   chipSelected: { backgroundColor: '#1B5E20' },
   chipText: { color: '#1B5E20', fontWeight: '500' },
   chipTextSelected: { color: '#fff' },
+  aiChipFallback: {
+    backgroundColor: '#FFEBEE',
+    borderColor: '#EF5350',
+    borderWidth: 1,
+  },
+  aiTextFallback: {
+    color: '#B71C1C',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  secondaryBtn: {
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#1B5E20',
+    width: '100%',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  secondaryBtnText: {
+    color: '#1B5E20',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   nextBtn: {
     backgroundColor: '#1B5E20', width: '100%', borderRadius: 12,
     padding: 18, alignItems: 'center', marginTop: 24,
