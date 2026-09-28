@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://kabadconnect-api.onrender.com/api/:match*"
+      "destination": "https://kabadwala-connect-api.onrender.com/api/:match*"
     },
     {
       "source": "/ml/:match*",
-      "destination": "https://kabadconnect-ml.onrender.com/:match*"
+      "destination": "https://kabadwala-connect-ml.onrender.com/:match*"
     },
     {
       "source": "/(.*)",
