@@ -146,7 +146,7 @@ export default function RecyclerLoginPage() {
                 name="phone"
                 autoComplete="tel"
                 autoFocus
-                placeholder="e.g. 7355217358"
+                placeholder="e.g. 9876543210"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 sx={{ mb: 1.5 }}
@@ -157,9 +157,9 @@ export default function RecyclerLoginPage() {
               </Typography>
               <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap', gap: 0.8 }}>
                 <Chip
-                  label="7355217358 (Owner Demo)"
+                  label="9876543210 (Demo Facility)"
                   size="small"
-                  onClick={() => setPhone('7355217358')}
+                  onClick={() => setPhone('9876543210')}
                   sx={{ bgcolor: '#162032', color: '#FFFFFF', border: '1px solid #1E293B', fontWeight: 600, fontSize: '0.82rem', height: 28, cursor: 'pointer', '&:hover': { bgcolor: '#1E293B', borderColor: '#2563EB' } }}
                 />
                 <Chip
