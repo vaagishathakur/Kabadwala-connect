@@ -64,7 +64,7 @@ export default function RecyclerLoginPage() {
       <Grid item xs={12} md={5} lg={6} sx={{ 
         display: { xs: 'none', md: 'flex' }, 
         flexDirection: 'column', 
-        bgcolor: '#0F172A', 
+        bgcolor: '#1E293B', // Slate background for better contrast
         color: 'white',
         p: 6,
         position: 'relative',
@@ -73,48 +73,43 @@ export default function RecyclerLoginPage() {
         {/* Background Pattern */}
         <Box sx={{
           position: 'absolute', top: '-10%', left: '-10%', width: '120%', height: '120%',
-          background: 'radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, rgba(15, 23, 42, 0) 50%)',
+          background: 'radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, rgba(30, 41, 59, 0) 50%)',
           zIndex: 0
         }} />
         
         <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 8 }}>
-            <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <RecyclingIcon sx={{ fontSize: 26, color: '#fff' }} />
-            </Box>
-            <Typography variant="h5" fontWeight="800" sx={{ letterSpacing: '-0.02em', fontSize: '1.75rem' }}>
-              KabadConnect
-            </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 8 }}>
+            <img src="/kabadify-logo.png" alt="Kabadify Logo" style={{ height: 60, filter: 'brightness(0) invert(1)' }} />
           </Box>
           
           <Typography variant="h3" fontWeight="700" sx={{ mb: 3, lineHeight: 1.2, fontSize: { md: '2.5rem', lg: '3rem' } }}>
             The Operating System for Formal Recycling
           </Typography>
           
-          <Typography variant="h6" sx={{ color: '#94A3B8', mb: 6, fontWeight: 400, lineHeight: 1.6, maxWidth: 500 }}>
+          <Typography variant="h6" sx={{ color: '#E2E8F0', mb: 6, fontWeight: 400, lineHeight: 1.6, maxWidth: 500 }}>
             Source verified e-waste directly from informal collectors. Fulfill your CPCB EPR quotas with full traceability and instant payouts.
           </Typography>
 
           <Stack spacing={4}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-              <VerifiedUserIcon sx={{ color: '#3B82F6', mt: 0.5 }} />
+              <VerifiedUserIcon sx={{ color: '#60A5FA', mt: 0.5, fontSize: 28 }} />
               <Box>
-                <Typography variant="subtitle1" fontWeight="600">EPR Compliance Ready</Typography>
-                <Typography variant="body2" color="#94A3B8">Automated Form-6 generation and CPCB traceability logs.</Typography>
+                <Typography variant="subtitle1" fontWeight="600" color="#F8FAFC">EPR Compliance Ready</Typography>
+                <Typography variant="body2" color="#CBD5E1">Automated Form-6 generation and CPCB traceability logs.</Typography>
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-              <AnalyticsIcon sx={{ color: '#10B981', mt: 0.5 }} />
+              <AnalyticsIcon sx={{ color: '#34D399', mt: 0.5, fontSize: 28 }} />
               <Box>
-                <Typography variant="subtitle1" fontWeight="600">AI Material Inspection</Typography>
-                <Typography variant="body2" color="#94A3B8">Computer vision verifies incoming scrap quality before it arrives.</Typography>
+                <Typography variant="subtitle1" fontWeight="600" color="#F8FAFC">AI Material Inspection</Typography>
+                <Typography variant="body2" color="#CBD5E1">Computer vision verifies incoming scrap quality before it arrives.</Typography>
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-              <LocalShippingIcon sx={{ color: '#F59E0B', mt: 0.5 }} />
+              <LocalShippingIcon sx={{ color: '#FBBF24', mt: 0.5, fontSize: 28 }} />
               <Box>
-                <Typography variant="subtitle1" fontWeight="600">Direct Collector Network</Typography>
-                <Typography variant="body2" color="#94A3B8">Connect directly with a network of verified Kabadiwalas.</Typography>
+                <Typography variant="subtitle1" fontWeight="600" color="#F8FAFC">Direct Collector Network</Typography>
+                <Typography variant="body2" color="#CBD5E1">Connect directly with a network of verified collectors.</Typography>
               </Box>
             </Box>
           </Stack>
@@ -126,13 +121,8 @@ export default function RecyclerLoginPage() {
         <Paper elevation={0} sx={{ p: { xs: 3, sm: 5 }, width: '100%', maxWidth: 440, borderRadius: 3, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)' }}>
           
           {/* Mobile Logo (Only visible on small screens) */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1.5, mb: 4 }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <RecyclingIcon sx={{ fontSize: 20, color: '#fff' }} />
-            </Box>
-            <Typography variant="h6" fontWeight="800" sx={{ letterSpacing: '-0.02em', color: '#0F172A' }}>
-              KabadConnect
-            </Typography>
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', mb: 4 }}>
+            <img src="/kabadify-logo.png" alt="Kabadify Logo" style={{ height: 40 }} />
           </Box>
 
           <Typography variant="h5" fontWeight="700" sx={{ color: '#0F172A', mb: 1 }}>

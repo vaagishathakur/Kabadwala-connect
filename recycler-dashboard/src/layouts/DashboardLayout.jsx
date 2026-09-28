@@ -81,7 +81,7 @@ export default function DashboardLayout() {
         </Box>
         <Box>
           <Typography variant="subtitle1" fontWeight="800" sx={{ color: '#0F172A', fontSize: '1.08rem', letterSpacing: -0.2, lineHeight: 1.2 }}>
-            {t('common.appName', 'KabadConnect')}
+            {t('common.appName', 'Kabadify')}
           </Typography>
           <Typography variant="caption" sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase' }}>
             {t('common.tagline', 'CPCB EPR Industrial Portal')}

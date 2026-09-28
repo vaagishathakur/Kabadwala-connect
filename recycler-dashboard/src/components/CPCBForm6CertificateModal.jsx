@@ -195,7 +195,7 @@ export default function CPCBForm6CertificateModal({ open, onClose, certificate }
 
           <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ mt: 3, pt: 1 }}>
             <Box>
-              <Chip icon={<VerifiedIcon sx={{ fontSize: 18 }} />} label="Digitally Certified by KabadConnect" size="small" color="success" sx={{ fontSize: '0.82rem', height: 28 }} />
+              <Chip icon={<VerifiedIcon sx={{ fontSize: 18 }} />} label="Digitally Certified by Kabadify" size="small" color="success" sx={{ fontSize: '0.82rem', height: 28 }} />
             </Box>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="caption" sx={{ display: 'block', fontStyle: 'italic', fontSize: '0.82rem' }}>

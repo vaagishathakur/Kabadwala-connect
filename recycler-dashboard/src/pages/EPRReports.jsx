@@ -37,7 +37,7 @@ export default function EPRReports() {
         issuing_authority: 'Central Pollution Control Board (CPCB), Govt of India',
         issuance_timestamp: log.handover_timestamp || new Date().toISOString(),
         recycler: {
-          company_name: 'KabadConnect Central Recyclers Ltd',
+          company_name: 'Kabadify Central Recyclers Ltd',
           cpcb_authorization: log.recycler_cpcb_reg_no || 'CPCB-REG-2024-MH-0042',
           spcb_noc: 'MPCB/RO-HQ/E-WASTE/AUTH-2023/0091',
           facility_address: 'Plot 42, MIDC Industrial Area, Taloja, Navi Mumbai, Maharashtra',

@@ -30,12 +30,12 @@ const OFFLINE_PROMPTS = {
   welcome: {
     hi: 'कबाड़कनेक्ट टोल-फ्री IVR में आपका स्वागत है। हिंदी के लिए 1 दबाएं। मराठीसाठी 2 दाबा। For English, press 3.',
     mr: 'कबाडकनेक्ट टोल-फ्री IVR मध्ये आपले स्वागत आहे. मराठीसाठी 2 दाबा. हिंदीसाठी 1 दाबा. For English, press 3.',
-    en: 'Welcome to KabadConnect Toll-Free Voice Portal. Press 1 for Hindi, 2 for Marathi, 3 for English.',
+    en: 'Welcome to Kabadify Toll-Free Voice Portal. Press 1 for Hindi, 2 for Marathi, 3 for English.',
   },
   main: {
     hi: 'कबाड़कनेक्ट सारथी मेनू: आज के लाइव स्क्रैप भाव जानने के लिए 1 दबाएं। अपना माल बेचने के लिए 2 दबाएं। नजदीकी CPCB रिसायकलर के लिए 3 दबाएं। भुगतान और बैंक UTR के लिए 4 दबाएं। सुरक्षा नियमों के लिए 5 दबाएं। भाषा बदलने के लिए 9 दबाएं।',
     mr: 'कबाडकनेक्ट सारथी मेनू: स्क्रॅपचे ताजे बाजारभाव जाणून घेण्यासाठी 1 दाबा. विक्री लॉट तयार करण्यासाठी 2 दाबा. जवळचे रिसायकलर शोधण्यासाठी 3 दाबा. पेमेंट स्टेटससाठी 4 दाबा. सुरक्षा नियमांसाठी 5 दाबा. भाषा बदलण्यासाठी 9 दाबा.',
-    en: 'KabadConnect Saathi Menu: Press 1 for live scrap market rates. Press 2 to sell scrap lot. Press 3 to find authorized recyclers. Press 4 for payout status. Press 5 for safety tips. Press 9 for language.',
+    en: 'Kabadify Saathi Menu: Press 1 for live scrap market rates. Press 2 to sell scrap lot. Press 3 to find authorized recyclers. Press 4 for payout status. Press 5 for safety tips. Press 9 for language.',
   },
   prices: {
     hi: 'आज के बाज़ार भाव: पीसीबी ₹1,250 प्रति किलो, लिथियम बैटरी ₹92 प्रति किलो, तांबा तार ₹680 प्रति किलो, लोहा ₹28 प्रति किलो। मुख्य मेनू के लिए * दबाएं।',

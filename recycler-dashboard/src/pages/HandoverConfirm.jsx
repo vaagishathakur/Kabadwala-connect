@@ -196,7 +196,7 @@ export default function HandoverConfirm() {
         amount: successData.transaction?.final_price_inr,
         payment_mode: successData.transaction?.payment_mode,
         utr: payoutResult?.utr || successData.transaction?.upi_utr || 'NA',
-        recycler_name: 'KabadConnect Central Recyclers Pvt Ltd',
+        recycler_name: 'Kabadify Central Recyclers Pvt Ltd',
         cpcb_reg_no: successData.epr_log?.cpcb_reg_no || 'CPCB-REG-2024-MH-0042',
         audit_hash_short: successData.epr_log?.audit_hash ? successData.epr_log.audit_hash.slice(0, 16) + '...' : 'N/A',
         lang: targetLang,
@@ -288,7 +288,7 @@ export default function HandoverConfirm() {
               <Box sx={{ maxWidth: 440, mx: 'auto', mb: 2.5, bgcolor: '#FFFFFF', p: 2, borderRadius: 2, border: '1px solid #BBF7D0' }}>
                 <Stack direction="row" justifyContent="space-between" sx={{ py: 0.8, borderBottom: '1px solid #E2E8F0' }}>
                   <Typography variant="body2" color="#64748B">{t('weighbridge.payee', 'Payee')}:</Typography>
-                  <Typography variant="body2" fontWeight="700" color="#0F172A">KabadConnect Recycling Escrow</Typography>
+                  <Typography variant="body2" fontWeight="700" color="#0F172A">Kabadify Recycling Escrow</Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" sx={{ py: 0.8, borderBottom: '1px solid #E2E8F0' }}>
                   <Typography variant="body2" color="#64748B">{t('weighbridge.transferAmount', 'Transfer Amount')}:</Typography>
@@ -483,7 +483,7 @@ export default function HandoverConfirm() {
               issuing_authority: 'Central Pollution Control Board (CPCB), Govt of India',
               issuance_timestamp: new Date().toISOString(),
               recycler: {
-                company_name: 'KabadConnect Central Recyclers Pvt Ltd',
+                company_name: 'Kabadify Central Recyclers Pvt Ltd',
                 cpcb_authorization: successData.epr_log?.cpcb_reg_no || 'CPCB-REG-2024-MH-0042',
                 spcb_noc: 'MPCB/RO-HQ/E-WASTE/AUTH-2023/0091',
                 facility_address: 'Plot 42, MIDC Industrial Area, Taloja, Navi Mumbai, Maharashtra 410208',

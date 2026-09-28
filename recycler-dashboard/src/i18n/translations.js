@@ -3,7 +3,7 @@
 export const translations = {
   en: {
     common: {
-      appName: 'KabadConnect',
+      appName: 'Kabadify',
       tagline: 'CPCB EPR Industrial Portal',
       terminalTitle: 'Recycler Terminal & Weighbridge Console',
       portalSubtitle: 'CPCB Extended Producer Responsibility Formal Intake Portal',
@@ -56,7 +56,7 @@ export const translations = {
       welcome: 'Welcome back',
       welcomeSubtitle: 'Real-time intake tracking, dual-scale calibration, and automated CPCB Form-6 generation.',
       audioBriefing: 'Listen to Daily Summary',
-      audioBriefingText: 'Welcome to KabadConnect. You have 14 verified lots today totaling 12,840 kilograms. Total monthly payout is 4.82 lakh rupees. All CPCB compliance records are synchronized.',
+      audioBriefingText: 'Welcome to Kabadify. You have 14 verified lots today totaling 12,840 kilograms. Total monthly payout is 4.82 lakh rupees. All CPCB compliance records are synchronized.',
       quickStats: {
         totalIntake: 'Today Verified Intake',
         intakeChange: '+18.4% vs yesterday',

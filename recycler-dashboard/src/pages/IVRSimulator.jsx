@@ -142,7 +142,7 @@ export default function IVRSimulator() {
     <Box>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h4" fontWeight="bold" color="primary" gutterBottom>
-          KabadConnect Saathi — IVR Voice Telephony
+          Kabadify Saathi — IVR Voice Telephony
         </Typography>
         <Typography variant="body1" color="text.secondary">
           Empowering informal Kabadiwalas with 24/7 feature phone access to daily CPCB rates & lot registration in <strong>Hindi</strong>, <strong>Marathi</strong>, and <strong>English</strong>.
@@ -151,7 +151,7 @@ export default function IVRSimulator() {
 
       <Alert severity="info" sx={{ mb: 3 }}>
         <strong>Why IVR?</strong> In India, over 70% of informal scrap collectors use basic 2G feature phones without internet.
-        KabadConnect Saathi bridges this digital divide by letting collectors dial a toll-free number to lock in formal CPCB recycler prices.
+        Kabadify Saathi bridges this digital divide by letting collectors dial a toll-free number to lock in formal CPCB recycler prices.
       </Alert>
 
       <Grid container spacing={3}>
@@ -174,7 +174,7 @@ export default function IVRSimulator() {
               <Stack direction="row" spacing={1} alignItems="center">
                 <CellTowerIcon sx={{ fontSize: 18, color: '#10B981' }} />
                 <Typography variant="caption" sx={{ color: '#94A3B8' }}>
-                  KabadConnect Airtel/Jio 4G
+                  Kabadify Airtel/Jio 4G
                 </Typography>
               </Stack>
               <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 'bold' }}>
@@ -349,7 +349,7 @@ export default function IVRSimulator() {
                   Live Call Transcript & DTMF Events
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Real-time speech transcript between collector and KabadConnect Saathi IVR state machine.
+                  Real-time speech transcript between collector and Kabadify Saathi IVR state machine.
                 </Typography>
 
                 <Paper
