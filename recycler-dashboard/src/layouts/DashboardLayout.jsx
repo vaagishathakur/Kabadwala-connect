@@ -64,29 +64,11 @@ export default function DashboardLayout() {
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#FFFFFF', color: '#0F172A', borderRight: '1px solid #E2E8F0' }}>
       {/* Brand Header */}
-      <Box sx={{ p: 2.5, pb: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 2,
-            bgcolor: '#EFF6FF',
-            border: '1px solid #BFDBFE',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <RecyclingIcon sx={{ color: '#1D4ED8', fontSize: 24 }} />
-        </Box>
-        <Box>
-          <Typography variant="subtitle1" fontWeight="800" sx={{ color: '#0F172A', fontSize: '1.08rem', letterSpacing: -0.2, lineHeight: 1.2 }}>
-            {t('common.appName', 'Kabadify')}
-          </Typography>
-          <Typography variant="caption" sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase' }}>
-            {t('common.tagline', 'CPCB EPR Industrial Portal')}
-          </Typography>
-        </Box>
+      <Box sx={{ p: 2.5, pb: 2, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+        <img src="/kabadify-logo.png" alt="Kabadify" style={{ height: 44, objectFit: 'contain', objectPosition: 'left' }} />
+        <Typography variant="caption" sx={{ color: '#64748B', fontSize: '0.70rem', fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase', mt: 1 }}>
+          {t('common.tagline', 'CPCB EPR INDUSTRIAL PORTAL')}
+        </Typography>
       </Box>
 
       <Divider sx={{ borderColor: '#E2E8F0', mx: 2 }} />
