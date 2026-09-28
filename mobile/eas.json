@@ -14,13 +14,13 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://kabadwala-connect-api.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "https://kabadwala-connect.onrender.com/api",
         "EXPO_PUBLIC_ML_URL": "https://kabadwala-connect-ml.onrender.com/predict"
       }
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://kabadwala-connect-api.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "https://kabadwala-connect.onrender.com/api",
         "EXPO_PUBLIC_ML_URL": "https://kabadwala-connect-ml.onrender.com/predict"
       }
     }

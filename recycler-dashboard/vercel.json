@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://kabadwala-connect-api.onrender.com/api/:match*"
+      "destination": "https://kabadwala-connect.onrender.com/api/:match*"
     },
     {
       "source": "/ml/:match*",
