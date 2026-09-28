@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Button, TextField, Typography, Paper, Alert, Chip, Stack,
-  CircularProgress, Container, Divider
+  CircularProgress, Divider, Grid
 } from '@mui/material';
 import RecyclingIcon from '@mui/icons-material/Recycling';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import SecurityIcon from '@mui/icons-material/Security';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import FloatingIVRWidget from '../components/FloatingIVRWidget';
 import useAuth from '../hooks/useAuth';
 import { api } from '../api/client';
@@ -32,8 +34,7 @@ export default function RecyclerLoginPage() {
       await api.post('/auth/send-otp', { phone });
       setStep(2);
     } catch (err) {
-      // Demo fallback
-      setStep(2);
+      setStep(2); // Demo fallback
     } finally {
       setLoading(false);
     }
@@ -58,115 +59,124 @@ export default function RecyclerLoginPage() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        bgcolor: '#0B0F17',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 2,
-      }}
-    >
-      <Container maxWidth="xs">
-        <Paper
-          elevation={0}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            borderRadius: 2,
-            bgcolor: '#111726',
-            border: '1px solid #1E293B',
-            position: 'relative',
-          }}
-        >
-          {/* Logo Badge */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: 2,
-                bgcolor: '#162032',
-                border: '1px solid #1E293B',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#2563EB',
-              }}
-            >
-              <RecyclingIcon sx={{ fontSize: 24 }} />
+    <Grid container sx={{ minHeight: '100vh', bgcolor: '#F8FAFC' }}>
+      {/* Left Side - Branding & Info (Hidden on small screens) */}
+      <Grid item xs={12} md={5} lg={6} sx={{ 
+        display: { xs: 'none', md: 'flex' }, 
+        flexDirection: 'column', 
+        bgcolor: '#0F172A', 
+        color: 'white',
+        p: 6,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Background Pattern */}
+        <Box sx={{
+          position: 'absolute', top: '-10%', left: '-10%', width: '120%', height: '120%',
+          background: 'radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, rgba(15, 23, 42, 0) 50%)',
+          zIndex: 0
+        }} />
+        
+        <Box sx={{ position: 'relative', zIndex: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 8 }}>
+            <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <RecyclingIcon sx={{ fontSize: 26, color: '#fff' }} />
             </Box>
-            <Box>
-              <Typography variant="h5" fontWeight="800" sx={{ letterSpacing: '-0.02em', color: '#FFFFFF', lineHeight: 1.1, fontSize: '1.45rem' }}>
-                KabadConnect
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase', fontSize: '0.78rem' }}>
-                CPCB Recycler Terminal
-              </Typography>
-            </Box>
+            <Typography variant="h5" fontWeight="800" sx={{ letterSpacing: '-0.02em', fontSize: '1.75rem' }}>
+              KabadConnect
+            </Typography>
           </Box>
-
-          <Typography variant="body1" sx={{ color: '#CBD5E1', mb: 2.5, fontSize: '0.98rem' }} align="center">
-            Extended Producer Responsibility Formal Intake Portal
+          
+          <Typography variant="h3" fontWeight="700" sx={{ mb: 3, lineHeight: 1.2, fontSize: { md: '2.5rem', lg: '3rem' } }}>
+            The Operating System for Formal Recycling
+          </Typography>
+          
+          <Typography variant="h6" sx={{ color: '#94A3B8', mb: 6, fontWeight: 400, lineHeight: 1.6, maxWidth: 500 }}>
+            Source verified e-waste directly from informal collectors. Fulfill your CPCB EPR quotas with full traceability and instant payouts.
           </Typography>
 
-          <Alert
-            severity="info"
-            icon={<SecurityIcon fontSize="inherit" />}
-            sx={{
-              width: '100%',
-              mb: 2.5,
-              fontSize: '0.92rem',
-              bgcolor: 'rgba(37, 99, 235, 0.12)',
-              color: '#93C5FD',
-              border: '1px solid rgba(37, 99, 235, 0.3)',
-              '& .MuiAlert-icon': { color: '#60A5FA', fontSize: 20 },
-            }}
-          >
-            <strong>Demo Gateway:</strong> Instant login enabled. Demo OTP: <strong>123456</strong>
+          <Stack spacing={4}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <VerifiedUserIcon sx={{ color: '#3B82F6', mt: 0.5 }} />
+              <Box>
+                <Typography variant="subtitle1" fontWeight="600">EPR Compliance Ready</Typography>
+                <Typography variant="body2" color="#94A3B8">Automated Form-6 generation and CPCB traceability logs.</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <AnalyticsIcon sx={{ color: '#10B981', mt: 0.5 }} />
+              <Box>
+                <Typography variant="subtitle1" fontWeight="600">AI Material Inspection</Typography>
+                <Typography variant="body2" color="#94A3B8">Computer vision verifies incoming scrap quality before it arrives.</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+              <LocalShippingIcon sx={{ color: '#F59E0B', mt: 0.5 }} />
+              <Box>
+                <Typography variant="subtitle1" fontWeight="600">Direct Collector Network</Typography>
+                <Typography variant="body2" color="#94A3B8">Connect directly with a network of verified Kabadiwalas.</Typography>
+              </Box>
+            </Box>
+          </Stack>
+        </Box>
+      </Grid>
+
+      {/* Right Side - Login Form */}
+      <Grid item xs={12} md={7} lg={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3 }}>
+        <Paper elevation={0} sx={{ p: { xs: 3, sm: 5 }, width: '100%', maxWidth: 440, borderRadius: 3, border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)' }}>
+          
+          {/* Mobile Logo (Only visible on small screens) */}
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1.5, mb: 4 }}>
+            <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <RecyclingIcon sx={{ fontSize: 20, color: '#fff' }} />
+            </Box>
+            <Typography variant="h6" fontWeight="800" sx={{ letterSpacing: '-0.02em', color: '#0F172A' }}>
+              KabadConnect
+            </Typography>
+          </Box>
+
+          <Typography variant="h5" fontWeight="700" sx={{ color: '#0F172A', mb: 1 }}>
+            Welcome back
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#64748B', mb: 4 }}>
+            Sign in to access your Recycler Dashboard
+          </Typography>
+
+          <Alert severity="info" icon={<SecurityIcon fontSize="inherit" />} sx={{ mb: 4, borderRadius: 2, bgcolor: '#EFF6FF', color: '#1E3A8A', border: '1px solid #BFDBFE', '& .MuiAlert-icon': { color: '#3B82F6' } }}>
+            <strong>Demo Gateway:</strong> Instant login enabled. Demo OTP is <strong>123456</strong>
           </Alert>
 
-          {error && (
-            <Alert severity="error" sx={{ width: '100%', mb: 2.5, fontSize: '0.92rem' }}>
-              {error}
-            </Alert>
-          )}
+          {error && <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>{error}</Alert>}
 
           {step === 1 ? (
             <Box component="form" onSubmit={handleSendOtp} sx={{ width: '100%' }}>
+              <Typography variant="subtitle2" sx={{ color: '#334155', mb: 1, fontWeight: 600 }}>
+                Registered Mobile Number
+              </Typography>
               <TextField
-                margin="normal"
                 required
                 fullWidth
                 id="phone"
-                label="Registered Facility Mobile"
                 name="phone"
                 autoComplete="tel"
                 autoFocus
                 placeholder="e.g. 9876543210"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                sx={{ mb: 1.5 }}
+                sx={{ 
+                  mb: 2, 
+                  '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#F8FAFC' }
+                }}
               />
 
-              <Typography variant="body2" sx={{ color: '#CBD5E1', display: 'block', mt: 1, mb: 0.8, fontWeight: 600, fontSize: '0.88rem' }}>
+              <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1, fontWeight: 500 }}>
                 Demo Authorized Facilities:
               </Typography>
-              <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap', gap: 0.8 }}>
+              <Stack direction="row" spacing={1} sx={{ mb: 4, flexWrap: 'wrap', gap: 1 }}>
                 <Chip
                   label="9876543210 (Demo Facility)"
-                  size="small"
                   onClick={() => setPhone('9876543210')}
-                  sx={{ bgcolor: '#162032', color: '#FFFFFF', border: '1px solid #1E293B', fontWeight: 600, fontSize: '0.82rem', height: 28, cursor: 'pointer', '&:hover': { bgcolor: '#1E293B', borderColor: '#2563EB' } }}
-                />
-                <Chip
-                  label="9820012345 (Attero Recycling)"
-                  size="small"
-                  onClick={() => setPhone('9820012345')}
-                  sx={{ bgcolor: '#162032', color: '#FFFFFF', border: '1px solid #1E293B', fontWeight: 600, fontSize: '0.82rem', height: 28, cursor: 'pointer', '&:hover': { bgcolor: '#1E293B', borderColor: '#2563EB' } }}
+                  sx={{ bgcolor: '#F1F5F9', color: '#334155', fontWeight: 600, '&:hover': { bgcolor: '#E2E8F0' } }}
                 />
               </Stack>
 
@@ -175,45 +185,52 @@ export default function RecyclerLoginPage() {
                 fullWidth
                 variant="contained"
                 disabled={loading}
+                disableElevation
                 sx={{
-                  py: 1.4,
-                  fontWeight: 700,
-                  fontSize: '1.0rem',
-                  bgcolor: '#2563EB',
+                  py: 1.5,
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  bgcolor: '#0F172A',
                   color: '#FFFFFF',
-                  border: '1px solid #1D4ED8',
-                  '&:hover': {
-                    bgcolor: '#1D4ED8',
-                  },
+                  borderRadius: 2,
+                  '&:hover': { bgcolor: '#334155' },
                 }}
               >
-                {loading ? <CircularProgress size={22} color="inherit" /> : 'Send One-Time Passcode'}
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Continue'}
               </Button>
             </Box>
           ) : (
             <Box component="form" onSubmit={handleVerify} sx={{ width: '100%' }}>
-              <Box sx={{ p: 1.5, mb: 2, bgcolor: '#0D131F', borderRadius: 1.5, border: '1px solid #1E293B' }}>
-                <Typography variant="caption" color="#64748B" sx={{ display: 'block' }}>
-                  Verifying Facility Passcode for:
-                </Typography>
-                <Typography variant="body2" fontWeight="600" color="#F8FAFC">
-                  +91 {phone}
-                </Typography>
+              <Box sx={{ p: 2, mb: 3, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box>
+                  <Typography variant="caption" color="#64748B" sx={{ display: 'block' }}>
+                    Passcode sent to
+                  </Typography>
+                  <Typography variant="body2" fontWeight="600" color="#0F172A">
+                    +91 {phone}
+                  </Typography>
+                </Box>
+                <Button size="small" onClick={() => setStep(1)} sx={{ fontWeight: 600, color: '#2563EB' }}>
+                  Edit
+                </Button>
               </Box>
 
+              <Typography variant="subtitle2" sx={{ color: '#334155', mb: 1, fontWeight: 600 }}>
+                Enter 6-Digit OTP
+              </Typography>
               <TextField
-                margin="normal"
                 required
                 fullWidth
                 id="otp"
-                label="Enter 6-Digit OTP"
                 name="otp"
                 autoFocus
                 value={otp}
-                helperText="Use demo OTP: 123456"
                 onChange={(e) => setOtp(e.target.value)}
-                inputProps={{ style: { letterSpacing: 4, fontWeight: 'bold', fontSize: '1.2rem', textAlign: 'center' } }}
-                sx={{ mb: 2 }}
+                inputProps={{ style: { letterSpacing: '0.5em', fontWeight: 'bold', fontSize: '1.25rem', textAlign: 'center' } }}
+                sx={{ 
+                  mb: 4, 
+                  '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#F8FAFC' }
+                }}
               />
 
               <Button
@@ -221,46 +238,37 @@ export default function RecyclerLoginPage() {
                 fullWidth
                 variant="contained"
                 disabled={loading}
+                disableElevation
                 sx={{
-                  py: 1.2,
+                  py: 1.5,
                   fontWeight: 600,
-                  fontSize: '0.9rem',
-                  bgcolor: '#2563EB',
+                  fontSize: '1rem',
+                  bgcolor: '#0F172A',
                   color: '#FFFFFF',
-                  border: '1px solid #1D4ED8',
-                  mb: 1.5,
-                  '&:hover': {
-                    bgcolor: '#1D4ED8',
-                  },
+                  borderRadius: 2,
+                  '&:hover': { bgcolor: '#334155' },
                 }}
               >
-                {loading ? <CircularProgress size={22} color="inherit" /> : 'Authenticate Facility'}
-              </Button>
-
-              <Button
-                fullWidth
-                variant="text"
-                onClick={() => setStep(1)}
-                sx={{ color: '#64748B', fontSize: '0.85rem', '&:hover': { color: '#F8FAFC' } }}
-              >
-                Change Phone Number
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Authenticate'}
               </Button>
             </Box>
           )}
 
-          <Divider sx={{ width: '100%', my: 2.5, borderColor: '#1E293B' }} />
+          <Divider sx={{ width: '100%', my: 4 }}>
+            <Typography variant="caption" sx={{ color: '#94A3B8' }}>SECURE CPCB PORTAL</Typography>
+          </Divider>
 
           <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-            <VerifiedUserIcon sx={{ fontSize: 16, color: '#3B82F6' }} />
+            <VerifiedUserIcon sx={{ fontSize: 18, color: '#10B981' }} />
             <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500 }}>
-              MoEFCC & CPCB EPR Compliance Standard | Form-6
+              End-to-End Encrypted & Audited
             </Typography>
           </Stack>
         </Paper>
-      </Container>
-
+      </Grid>
+      
       {/* Floating Offline & Online IVR Hotline */}
       <FloatingIVRWidget />
-    </Box>
+    </Grid>
   );
 }
